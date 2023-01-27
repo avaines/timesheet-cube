@@ -1,2 +1,2 @@
 # timesheet-cube
-A janky Timely alternative using an Aqara cube and an Office365 calendar
+A janky Timeular alternative using an Aqara cube and an Office365 calendar
