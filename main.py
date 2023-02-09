@@ -81,10 +81,9 @@ class Cube():
             self.previous_face = self.current_face
 
             with open(path_to_face_file) as f:
-                self.current_face = f.readlines()[0]
+                self.current_face = self.cube_face_map[f.readlines()[0]]
 
             if self.previous_face == self.current_face:
-                # print("Face has not changed, it is still", self.previous_face )
                 self.time_on_current_face += minutes_elapsed
                 return False
             else:
