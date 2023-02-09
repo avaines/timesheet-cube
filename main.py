@@ -81,7 +81,7 @@ class Cube():
             self.previous_face = self.current_face
 
             with open(path_to_face_file) as f:
-                self.current_face = self.cube_face_map[f.readlines()[0]]
+                self.current_face = [line.strip() for line in f.readlines()][0]
 
             if self.previous_face == self.current_face:
                 self.time_on_current_face += minutes_elapsed
