@@ -96,7 +96,7 @@ class Cube():
 
 
 if __name__ == '__main__':
-    tick_length_mins = 5 #15
+    tick_length_mins = 15
     timezone = 'Europe/London'
 
     account = o365_auth()
