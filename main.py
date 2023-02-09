@@ -60,27 +60,28 @@ class Cube():
         self.previous_face = "off"
         self.time_on_current_face = 0
 
+        self.cube_face_map = {
+            "one": "Engineering Leadership",
+            "two": "Internal",
+            "three": "Client",
+            "four": "Off",
+            "five": "Recruitment",
+            "six": "personal",
+        }
+
     def has_face_changed_in_the_last_x_minutes(self, minutes_elapsed):
         # TODO: Zigbee checks here
         # from random import randint
         # self.current_face = self.__cube_face_map[randint(1,6)]
-        # cube_face_map = {
-        #     1 : "off",
-        #     2 : "two",
-        #     3 : "three",
-        #     4 : "four",
-        #     5 : "five",
-        #     6 : "six",
-        # }
         # self.previous_face = self.current_face
-        # self.current_face = cube_face_map[4]
+        # self.current_face = self.cube_face_map["four"]
         path_to_face_file = "./cur_face"
 
         if os.path.exists(path_to_face_file):
             self.previous_face = self.current_face
 
             with open(path_to_face_file) as f:
-                self.current_face = f.readlines()
+                self.current_face = f.readlines()[0]
 
             if self.previous_face == self.current_face:
                 # print("Face has not changed, it is still", self.previous_face )
@@ -94,7 +95,6 @@ class Cube():
 
 
 if __name__ == '__main__':
-    off_face = "four"
     tick_length_mins = 5 #15
     timezone = 'Europe/London'
 
@@ -111,7 +111,7 @@ if __name__ == '__main__':
         if TheCube.has_face_changed_in_the_last_x_minutes(minutes_elapsed = tick_length_mins):
             print("Cube face has changed to %s, saving calendar event" % (TheCube.current_face))
 
-            if TheCube.current_face is not off_face:
+            if TheCube.current_face is not "Off":
                 new_calendar_event(
                     calendar = calendar,
                     subject = "Focus was on: %s" % (TheCube.current_face),
