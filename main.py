@@ -66,7 +66,7 @@ class Cube():
             "three": "Client",
             "four": "Off",
             "five": "Recruitment",
-            "six": "personal",
+            "six": "Personal",
         }
 
     def has_face_changed_in_the_last_x_minutes(self, minutes_elapsed):
@@ -83,7 +83,7 @@ class Cube():
             with open(path_to_face_file) as f:
                 face_from_file = [line.strip() for line in f.readlines()][0]
 
-            self.cube_face_map[face_from_file]
+            self.current_face = self.cube_face_map[face_from_file]
 
             if self.previous_face == self.current_face:
                 self.time_on_current_face += minutes_elapsed
