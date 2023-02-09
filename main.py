@@ -111,7 +111,7 @@ if __name__ == '__main__':
         if TheCube.has_face_changed_in_the_last_x_minutes(minutes_elapsed = tick_length_mins):
             print("Cube face has changed to %s, saving calendar event" % (TheCube.current_face))
 
-            if TheCube.current_face is not "Off":
+            if TheCube.current_face != "Off":
                 new_calendar_event(
                     calendar = calendar,
                     subject = "Focus was on: %s" % (TheCube.current_face),
