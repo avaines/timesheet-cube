@@ -60,31 +60,37 @@ class Cube():
         self.previous_face = "off"
         self.time_on_current_face = 0
 
-        self.__cube_face_map = {
-            1 : "off",
-            2 : "two",
-            3 : "three",
-            4 : "four",
-            5 : "five",
-            6 : "six",
-        }
-
     def has_face_changed_in_the_last_x_minutes(self, minutes_elapsed):
         # TODO: Zigbee checks here
         # from random import randint
         # self.current_face = self.__cube_face_map[randint(1,6)]
-        self.previous_face = self.current_face
-        self.current_face = self.__cube_face_map[4]
+        # cube_face_map = {
+        #     1 : "off",
+        #     2 : "two",
+        #     3 : "three",
+        #     4 : "four",
+        #     5 : "five",
+        #     6 : "six",
+        # }
+        # self.previous_face = self.current_face
+        # self.current_face = cube_face_map[4]
+        path_to_face_file = "./cur_face"
 
-        if self.previous_face == self.current_face:
-            # print("Face has not changed, it is still", self.previous_face )
-            self.time_on_current_face += minutes_elapsed
-            return False
-        else:
-            # print("Face has changed to", self.current_face)
-            self.time_on_current_face = 0
-            self.start_time_of_face = pytz.timezone(timezone).localize(datetime.now())
-            return True
+        if os.path.exists(path_to_face_file):
+            self.previous_face = self.current_face
+
+            with open(path_to_face_file) as f:
+                self.current_face = f.readlines()
+
+            if self.previous_face == self.current_face:
+                # print("Face has not changed, it is still", self.previous_face )
+                self.time_on_current_face += minutes_elapsed
+                return False
+            else:
+                # print("Face has changed to", self.current_face)
+                self.time_on_current_face = 0
+                self.start_time_of_face = pytz.timezone(timezone).localize(datetime.now())
+                return True
 
 
 if __name__ == '__main__':
