@@ -118,10 +118,10 @@ previously it was on the '{TheCube.previous_face}' face, sleeping for {interval}
 @app.get("/")
 async def root():
     return {
-        "current_face": "unset",
-        "previous_face": "unset",
-        "time_on_face": 0,
-        "face_map": {"one":"unset"},
+        "current_face": TheCube.current_face,
+        "previous_face": TheCube.previous_face,
+        "time_on_face": TheCube.time_on_current_face,
+        "face_map": TheCube.cube_face_map,
     }
 
 @app.post("/change/")
