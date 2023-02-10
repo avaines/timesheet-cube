@@ -97,6 +97,7 @@ previously it was on the '{TheCube.previous_face}' face, sleeping for {interval}
 
         if TheCube.current_face.upper() != "OFF":
             if TheCube.current_face != TheCube.previous_face:
+                print(f"New calendar entry for {TheCube.current_face}")
                 # The Cube face has changed
                 new_calendar_event(
                     calendar = calendar,
@@ -107,6 +108,7 @@ previously it was on the '{TheCube.previous_face}' face, sleeping for {interval}
 
             else:
                 # The Cube Face has not changed since last tick
+                print(f"Extending calendar entry for {TheCube.current_face}")
                 extend_calendar_event(
                     calendar = calendar,
                     subject = "Focus was on: %s" % (TheCube.current_face),
@@ -132,7 +134,7 @@ async def change_face(new_face: str = "one"):
     TheCube.change_face(new_face)
 
     return {
-        "new_face": new_face,
+        "new_face": TheCube.current_face,
         "previous_face": TheCube.previous_face,
     }
 
