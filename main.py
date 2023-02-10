@@ -129,7 +129,7 @@ async def root():
         "face_map": TheCube.cube_face_map,
     }
 
-@app.post("/change/")
+@app.post("/change")
 async def change_face(new_face: str = "one"):
     TheCube.change_face(new_face)
 
