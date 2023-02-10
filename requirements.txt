@@ -1,4 +1,4 @@
 o365
-progress
 python-dotenv
-pyyaml
+FastAPI
+uvicorn

@@ -1,0 +1,24 @@
+version: "2"
+
+services:
+  timecube:
+    container_name: timesheet-cube-timecube
+    ports:
+      - "8000:8000"
+    platform: linux/x86_64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - CALENDAR_NAME=${CALENDAR_NAME}
+      - CALENDAR_OWNER=${CALENDAR_OWNER}
+      - CLIENT_ID=${CLIENT_ID}
+      - CLIENT_SECRET=${CLIENT_SECRET}
+      - CUBE_FACE_ONE=${CUBE_FACE_ONE}
+      - CUBE_FACE_TWO=${CUBE_FACE_TWO}
+      - CUBE_FACE_THREE=${CUBE_FACE_THREE}
+      - CUBE_FACE_FOUR=${CUBE_FACE_FOUR}
+      - CUBE_FACE_FIVE=${CUBE_FACE_FIVE}
+      - CUBE_FACE_SIX=${CUBE_FACE_SIX}
+      - INTERVAL=${INTERVAL}
+      - TENANT_ID=${TENANT_ID}
