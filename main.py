@@ -31,11 +31,13 @@ class Cube():
 
     def tick(self, minutes_elapsed: int):
         if self.previous_face == self.current_face:
+            # Face has NOT changed since last time we checked
             self.time_on_current_face += minutes_elapsed
         else:
             # Face has changed since last time we checked
             self.time_on_current_face = 0
             self.start_time_of_face = pytz.timezone(timezone).localize(datetime.now())
+            self.previous_face = self.current_face
 
 
 def o365_auth():
@@ -89,6 +91,7 @@ async def tick(interval: int = 10):
     while True:
         # code to run periodically starts here
         TheCube.tick(int(interval))
+
         print(f"The '{TheCube.current_face}' face has been active for {TheCube.time_on_current_face} minutes, \
 previously it was on the '{TheCube.previous_face}' face, sleeping for {interval} minute(s)")
 
