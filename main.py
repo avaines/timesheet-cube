@@ -71,7 +71,9 @@ def new_calendar_event(calendar, subject, start, end):
     new_event.save()
 
 def extend_calendar_event(calendar, subject, original_start, new_end):
-    query = calendar.new_query('start').greater_equal(original_start)
+    adjusted_start = original_start - timedelta(minutes = 2) # Make the window slightly wider
+
+    query = calendar.new_query('start').greater_equal(adjusted_start)
     query.new('end').less_equal(new_end)
     query.chain('and').on_attribute('subject').contains(subject)
 
@@ -117,7 +119,7 @@ previously it was on the '{TheCube.previous_face}' face, sleeping for {interval}
                 extend_calendar_event(
                     calendar = calendar,
                     subject = "Focus was on: %s" % (TheCube.current_face),
-                    original_start = TheCube.start_time_of_face - timedelta(minutes = 1),
+                    original_start = TheCube.start_time_of_face - timedelta(minutes = int(interval)),
                     new_end = pytz.timezone(timezone).localize(datetime.now()),
                 )
 
