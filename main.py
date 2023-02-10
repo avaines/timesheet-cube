@@ -84,10 +84,6 @@ def extend_calendar_event(calendar, subject, original_start, new_end):
         event.save()
 
 async def tick(interval: int = 10):
-    account = o365_auth()
-    schedule = account.schedule(resource = os.getenv('CALENDAR_OWNER'))
-    calendar = schedule.get_calendar(calendar_name=os.getenv('CALENDAR_NAME'))
-
     while True:
         # code to run periodically starts here
         TheCube.tick(int(interval))
@@ -149,6 +145,10 @@ async def schedule_periodic():
 timezone = 'Europe/London'
 TheCube = Cube(timezone)
 tick_interval_minutes = os.getenv("INTERVAL", 1)
+
+account = o365_auth()
+schedule = account.schedule(resource = os.getenv('CALENDAR_OWNER'))
+calendar = schedule.get_calendar(calendar_name=os.getenv('CALENDAR_NAME'))
 
 # Local Execution
 if __name__ == "__main__":

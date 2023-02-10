@@ -9,3 +9,11 @@ I already have an Office 365 subscription with calendars and I don't mind spendi
 ## Shopping list
 1) An Aqara Cube: https://www.aliexpress.com/af/aqara-cube.html
 2) A USB Zigbee gateway: https://www.aliexpress.com/af/usb-zigbee.html
+
+
+## Running it
+> docker-compose -f docker-compose.yaml up --build
+OR
+> ./run-locally
+
+## Using it
