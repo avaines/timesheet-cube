@@ -78,10 +78,19 @@ def extend_calendar_event(calendar, subject, original_start, new_end):
     # For somereason the example shows the get_event output as an itterable but it doesnt seem to work properly
     matching_events = [ event for event in calendar.get_events(query = query, include_recurring = False)]
 
-    for event in matching_events:
-        print("Found '%s' starting at %s, extending out to %s" % ( event.attachment_name, original_start.strftime("%H:%M:%S"), new_end.strftime("%H:%M:%S")))
-        event.end = new_end
-        event.save()
+    if len(matching_events) <1:
+        print("Couldn't find a matching event, creating one")
+        new_calendar_event(
+            calendar = calendar,
+            subject = "Focus was on: %s" % (TheCube.current_face),
+            start = original_start,
+            end = new_end,
+        )
+    else:
+        for event in matching_events:
+            print("Found '%s' starting at %s, extending out to %s" % ( event.attachment_name, original_start.strftime("%H:%M:%S"), new_end.strftime("%H:%M:%S")))
+            event.end = new_end
+            event.save()
 
 async def tick(interval: int = 10):
     while True:
@@ -120,7 +129,7 @@ previously it was on the '{TheCube.previous_face}' face, sleeping for {interval}
 async def root():
     return {
         "current_face": TheCube.current_face,
-        "previous_face": TheCube.previous_face,
+        "face_at_last_interval": TheCube.previous_face,
         "time_on_face": TheCube.time_on_current_face,
         "face_map": TheCube.cube_face_map,
     }
@@ -131,7 +140,7 @@ async def change_face(new_face: str = "one"):
 
     return {
         "new_face": TheCube.current_face,
-        "previous_face": TheCube.previous_face,
+        "face_at_last_interval": TheCube.previous_face,
     }
 
 # Initialise backup process for looping and time management
