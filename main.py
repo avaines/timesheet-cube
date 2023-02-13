@@ -80,7 +80,21 @@ def extend_calendar_event(calendar, subject, original_start, new_end):
     # For somereason the example shows the get_event output as an itterable but it doesnt seem to work properly
     matching_events = [ event for event in calendar.get_events(query = query, include_recurring = False)]
 
-    if len(matching_events) <1:
+    if len(matching_events) == 1:
+        event = matching_events[0]
+        print("Found '%s' starting at %s, extending out to %s" % ( event.attachment_name, original_start.strftime("%H:%M:%S"), new_end.strftime("%H:%M:%S")))
+        event.end = new_end
+        event.save()
+
+    # TODO: this shouldn't need to exist
+    elif len(matching_events) > 1:
+        print(f"Found {len(matching_events)} events' which is odd. attempting to extend them all.")
+        for event in matching_events:
+            print("Extending '%s'; starting at %s, moving end time out to %s" % ( event.attachment_name, original_start.strftime("%H:%M:%S"), new_end.strftime("%H:%M:%S")))
+            event.end = new_end
+            event.save()
+
+    else:
         print("Couldn't find a matching event, creating one")
         new_calendar_event(
             calendar = calendar,
@@ -88,11 +102,6 @@ def extend_calendar_event(calendar, subject, original_start, new_end):
             start = original_start,
             end = new_end,
         )
-    else:
-        for event in matching_events:
-            print("Found '%s' starting at %s, extending out to %s" % ( event.attachment_name, original_start.strftime("%H:%M:%S"), new_end.strftime("%H:%M:%S")))
-            event.end = new_end
-            event.save()
 
 async def tick(interval: int = 10):
     while True:
@@ -165,6 +174,7 @@ tick_interval_minutes = os.getenv("INTERVAL", 1)
 account = o365_auth()
 schedule = account.schedule(resource = os.getenv('CALENDAR_OWNER'))
 calendar = schedule.get_calendar(calendar_name=os.getenv('CALENDAR_NAME'))
+
 
 # Local Execution
 if __name__ == "__main__":
