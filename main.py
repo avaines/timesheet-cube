@@ -104,6 +104,7 @@ def extend_calendar_event(calendar, subject, original_start, new_end):
         )
 
 async def tick(interval: int = 10):
+
     while True:
         # code to run periodically starts here
         TheCube.tick(int(interval))
