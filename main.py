@@ -133,6 +133,7 @@ async def root():
         "current_face": TheCube.current_face,
         "face_at_last_interval": TheCube.previous_face,
         "time_on_face": TheCube.time_on_current_face,
+        "check_interval": tick_interval_minutes,
         "face_map": TheCube.cube_face_map,
     }
 
@@ -148,8 +149,12 @@ async def change_face(new_face: str = "one"):
 # Initialise backup process for looping and time management
 @app.on_event("startup")
 async def schedule_periodic():
-    loop = asyncio.get_event_loop()
-    loop.create_task(tick(tick_interval_minutes))
+    # Fix for Heisenbug async issue: https://textual.textualize.io/blog/2023/02/11/the-heisenbug-lurking-in-your-async-code/
+    background_tasks = set()
+
+    task = asyncio.create_task(tick(tick_interval_minutes))
+    background_tasks.add(task)
+    task.add_done_callback(background_tasks.discard)
 
 
 # Globals
