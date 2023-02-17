@@ -1,0 +1,25 @@
+alias: Aqara Cube face-based
+description: ""
+use_blueprint:
+  path: n3rden/homeassistant-blueprint.yaml
+  input:
+    last_face_input: input_number.aqara_cube_previous_face
+    cube: 83e589b6caaf06d0d1f510e6721a5553
+    face_1_flip:
+      - service: shell_command.flip_face_one
+        data: {}
+    face_2_flip:
+      - service: shell_command.flip_face_two
+        data: {}
+    face_3_flip:
+      - service: shell_command.flip_face_three
+        data: {}
+    face_4_flip:
+      - service: shell_command.flip_face_four
+        data: {}
+    face_5_flip:
+      - service: shell_command.flip_face_five
+        data: {}
+    face_6_flip:
+      - service: shell_command.flip_face_six
+        data: {}
